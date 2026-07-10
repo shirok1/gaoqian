@@ -1,0 +1,91 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"docs">;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+
+const yuan = (n: number | null | undefined) =>
+  n === null || n === undefined ? "—" : `¥${n}`;
+const percent = (n: number | null | undefined) =>
+  n === null || n === undefined ? "—" : `${n}%`;
+const times = (n: number | null | undefined) =>
+  n === null || n === undefined ? "—" : `${n}×`;
+
+const rows: [string, string][] = [
+  ["发卡行", d.bank ?? "—"],
+  ["卡组织", d.network ?? "—"],
+  ["卡片类型", d.cardType ?? "—"],
+  ["年费", yuan(d.annualFee)],
+  ["免年费条件", d.annualFeeWaiver ?? "—"],
+  ["返现比例", percent(d.cashbackRate)],
+  ["每元积分", times(d.pointsPerYuan)],
+  ["适合人群", d.targetGroupCard ?? "—"],
+  ["申请难度", d.difficulty ?? "—"],
+];
+---
+
+<div class="spec">
+  <table>
+    <tbody>
+      {
+        rows.map(([label, value]) => (
+          <tr>
+            <th scope="row">{label}</th>
+            <td>{value}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+
+  {
+    d.perks.length > 0 && (
+      <ul class="chips">
+        {d.perks.map((perk) => (
+          <li class="chip">{perk}</li>
+        ))}
+      </ul>
+    )
+  }
+</div>
+
+<style>
+  .spec {
+    margin-bottom: 1.5rem;
+  }
+
+  .spec table {
+    width: 100%;
+    margin: 0;
+  }
+
+  .spec th {
+    text-align: start;
+    white-space: nowrap;
+    width: 1%;
+    color: var(--sl-color-gray-2);
+    font-weight: 600;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+
+  .chip {
+    background: var(--sl-color-gray-7);
+    color: var(--sl-color-white);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    font-size: var(--sl-text-sm);
+    line-height: 1.5;
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import CardTable, { type CardEntry } from "../../components/CardTable.tsx";
+
+const cards: CardEntry[] = (await getCollection("docs"))
+    .filter((entry) => entry.data.kind === "card")
+    .map((entry) => ({
+        id: entry.id,
+        // Starlight routes content entries at their id.
+        href: `/${entry.id}/`,
+        title: entry.data.title,
+        bank: entry.data.bank ?? "",
+        network: entry.data.network ?? "",
+        cardType: entry.data.cardType ?? "",
+        annualFee: entry.data.annualFee ?? 0,
+        annualFeeWaiver: entry.data.annualFeeWaiver ?? "",
+        cashbackRate: entry.data.cashbackRate ?? null,
+        pointsPerYuan: entry.data.pointsPerYuan ?? null,
+        perks: entry.data.perks,
+        targetGroup: entry.data.targetGroupCard ?? "",
+        difficulty: entry.data.difficulty ?? "",
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title, "zh-CN"));
+---
+
+<StarlightPage
+    frontmatter={{
+        title: "信用卡目录",
+        description: "按卡组织、年费、权益等条件筛选本站收录的全部信用卡。",
+        tableOfContents: false,
+    }}
+>
+    <p>使用下方筛选器查找合适的信用卡。所有数据均为虚构示例，仅用于演示。</p>
+    <CardTable cards={cards} client:load />
+</StarlightPage>

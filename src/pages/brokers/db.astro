@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import BrokerTable, {
+    type BrokerEntry,
+} from "../../components/BrokerTable.tsx";
+
+const brokers: BrokerEntry[] = (await getCollection("docs"))
+    .filter((entry) => entry.data.kind === "broker")
+    .map((entry) => ({
+        id: entry.id,
+        // Starlight routes content entries at their id.
+        href: `/${entry.id}/`,
+        title: entry.data.title,
+        accountTypes: entry.data.accountTypes,
+        commissionRate: entry.data.commissionRate ?? 0,
+        minCommission: entry.data.minCommission ?? 0,
+        platformFee: entry.data.platformFee ?? null,
+        features: entry.data.features,
+        appExperience: entry.data.appExperience ?? "",
+        supportChannels: entry.data.supportChannels,
+        minDeposit: entry.data.minDeposit ?? null,
+        pensionSupported: entry.data.pensionSupported ?? false,
+        targetGroup: entry.data.targetGroupBroker ?? "",
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title, "zh-CN"));
+---
+
+<StarlightPage
+    frontmatter={{
+        title: "券商目录",
+        description: "按账户类型、佣金、App 体验等条件筛选本站收录的全部券商。",
+        tableOfContents: false,
+    }}
+>
+    <p>使用下方筛选器查找合适的券商。所有数据均为虚构示例，仅用于演示。</p>
+    <BrokerTable brokers={brokers} client:load />
+</StarlightPage>

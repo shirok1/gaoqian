@@ -1,0 +1,14 @@
+---
+import Default from "@astrojs/starlight/components/MarkdownContent.astro";
+import BrokerSpec from "../BrokerSpec.astro";
+import CardSpec from "../CardSpec.astro";
+
+const { entry } = Astro.locals.starlightRoute;
+const kind = entry.data.kind;
+---
+
+<Default>
+    {kind === "card" && <CardSpec entry={entry} />}
+    {kind === "broker" && <BrokerSpec entry={entry} />}
+    <slot />
+</Default>

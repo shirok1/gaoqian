@@ -1,40 +1,54 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: 搞钱 Wiki
+description: 信用卡与投资的中文资料库。
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  tagline: Z 世代选卡与投资入门指南
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/money_with_wings_color.svg
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: 从概览开始
+      link: /getting-started/overview/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+    - text: 信用卡目录
+      link: /cards/db/
+      icon: open-book
+      variant: minimal
+    - text: 券商目录
+      link: /brokers/db/
+      icon: open-book
       variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
+:::caution[免责声明]
+本站内容仅供学习与参考，不构成任何投资建议或金融产品推荐。文中提及的银行、券商及产品均为虚构示例。
+请在做出任何财务决策前咨询持牌专业人士，并自行核实产品条款。
+:::
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+  <Card title="选卡与用卡" icon="document">
+    从第一张卡的挑选标准，到账单日、还款日与积分返现的取舍。
+
+    [如何挑选第一张卡 →](/cards/choosing/first-card/)
+  </Card>
+
+  <Card title="投资基础" icon="rocket">
+    开户之前需要想清楚的成本结构，以及波动与回撤的含义。
+
+    [投资入门 →](/investing/basics/intro/)
+  </Card>
+  
+  <Card title="信用卡目录" icon="approve-check">
+    收录多家银行的信用卡，统一记录年费、返现、积分与权益。支持按卡组织、适合人群、申请难度与年费上限筛选。
+
+    [浏览信用卡 →](/cards/db/)
+  </Card>
+
+  <Card title="券商目录" icon="bars">
+    收录多家券商，统一记录佣金、最低佣金、平台费与可开账户类型。支持按账户类型、App 体验与养老金支持筛选。
+
+    [浏览券商 →](/brokers/db/)
+  </Card>
 </CardGrid>

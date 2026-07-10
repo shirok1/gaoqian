@@ -1,0 +1,90 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"docs">;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+
+const yuan = (n: number | null | undefined) =>
+  n === null || n === undefined ? "—" : `¥${n}`;
+// Commission is quoted in 万分之 N (basis points) by convention.
+const basisPoints = (n: number | null | undefined) =>
+  n === null || n === undefined ? "—" : `万分之 ${n}`;
+
+const rows: [string, string][] = [
+  ["可开账户", d.accountTypes.length > 0 ? d.accountTypes.join(" / ") : "—"],
+  ["佣金费率", basisPoints(d.commissionRate)],
+  ["最低佣金", yuan(d.minCommission)],
+  ["平台费", yuan(d.platformFee)],
+  ["App 体验", d.appExperience ?? "—"],
+  ["客服渠道", d.supportChannels.length > 0 ? d.supportChannels.join(" / ") : "—"],
+  ["最低入金", yuan(d.minDeposit)],
+  ["支持养老金账户", d.pensionSupported === undefined ? "—" : d.pensionSupported ? "是" : "否"],
+  ["适合人群", d.targetGroupBroker ?? "—"],
+];
+---
+
+<div class="spec">
+  <table>
+    <tbody>
+      {
+        rows.map(([label, value]) => (
+          <tr>
+            <th scope="row">{label}</th>
+            <td>{value}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+
+  {
+    d.features.length > 0 && (
+      <ul class="chips">
+        {d.features.map((feature) => (
+          <li class="chip">{feature}</li>
+        ))}
+      </ul>
+    )
+  }
+</div>
+
+<style>
+  .spec {
+    margin-bottom: 1.5rem;
+  }
+
+  .spec table {
+    width: 100%;
+    margin: 0;
+  }
+
+  .spec th {
+    text-align: start;
+    white-space: nowrap;
+    width: 1%;
+    color: var(--sl-color-gray-2);
+    font-weight: 600;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+
+  .chip {
+    background: var(--sl-color-gray-7);
+    color: var(--sl-color-white);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    font-size: var(--sl-text-sm);
+    line-height: 1.5;
+  }
+</style>
