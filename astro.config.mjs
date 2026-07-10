@@ -73,5 +73,7 @@ export default defineConfig({
     react(),
   ],
 
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: { build: "compile", runtime: "passthrough" },
+  }),
 });
