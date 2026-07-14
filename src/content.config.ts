@@ -22,8 +22,13 @@ export const collections = {
             .optional(),
           cardType: z.enum(["信用卡", "借记卡", "联名卡"]).optional(),
           cardLevel: z.string().optional(),
-          annualFee: z.number().nullable().optional(),
-          annualFeeWaiver: z.string().optional(),
+          annualFee: z
+            .object({
+              amount: z.number(),
+              currency: z.enum(["CNY", "HKD", "USD"]).default("CNY"),
+              waiver: z.string().optional(),
+            })
+            .optional(),
           cashbackRate: z.number().nullable().optional(),
           pointsPerYuan: z.number().nullable().optional(),
           perks: z.string().array().default([]),

@@ -6,8 +6,10 @@ bank: 汇丰银行（香港）
 network: 银联
 cardType: 信用卡
 cardLevel: 钻石
-annualFee: 1800
-annualFeeWaiver: 年费 HKD 1800，可致电客服申请减免
+annualFee:
+  amount: 1800
+  currency: HKD
+  waiver: 可 APP 客服对话申请减免
 perks:
   - 消费返汇丰 Reward+ 积分
 ---

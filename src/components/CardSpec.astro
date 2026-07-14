@@ -9,8 +9,11 @@ interface Props {
 const { entry } = Astro.props;
 const d = entry.data;
 
-const yuan = (n: number | null | undefined) =>
-  n === null || n === undefined ? "—" : `¥${n}`;
+const currencySymbols: Record<string, string> = { CNY: "¥", HKD: "HK$", USD: "$" };
+const formatFee = (fee: typeof d.annualFee) =>
+  fee === undefined ? "—" : `${currencySymbols[fee.currency] ?? fee.currency + " "}${fee.amount}`;
+const formatWaiver = (fee: typeof d.annualFee) =>
+  fee === undefined ? "—" : fee.waiver ?? (fee.amount > 0 ? "刚性年费，不可减免" : "—");
 const percent = (n: number | null | undefined) =>
   n === null || n === undefined ? "—" : `${n}%`;
 const times = (n: number | null | undefined) =>
@@ -21,8 +24,8 @@ const rows: [string, string][] = [
   ["卡组织", d.network ?? "—"],
   ["卡片类型", d.cardType ?? "—"],
   ["卡片等级", d.cardLevel ?? "—"],
-  ["年费", yuan(d.annualFee)],
-  ["免年费条件", d.annualFeeWaiver ?? "—"],
+  ["年费", formatFee(d.annualFee)],
+  ["免年费条件", formatWaiver(d.annualFee)],
   ["返现比例", percent(d.cashbackRate)],
   ["每元积分", times(d.pointsPerYuan)],
   ["适合人群", d.targetGroupCard ?? "—"],

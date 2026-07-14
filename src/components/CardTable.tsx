@@ -27,8 +27,7 @@ export interface CardEntry {
   bank: string;
   network: string;
   cardType: string;
-  annualFee: number | null;
-  annualFeeWaiver: string;
+  annualFee: { amount: number; currency: string; waiver?: string } | null;
   cashbackRate: number | null;
   pointsPerYuan: number | null;
   perks: string[];
@@ -78,7 +77,7 @@ export default function CardTable({ cards }: Props) {
       if (difficulty !== ANY && c.difficulty !== difficulty) return false;
       if (perk !== ANY && !c.perks.includes(perk)) return false;
       if (feeLimit !== null && !Number.isNaN(feeLimit)) {
-        if (c.annualFee === null || c.annualFee > feeLimit) return false;
+        if (c.annualFee === null || c.annualFee.amount > feeLimit) return false;
       }
       return true;
     });
@@ -162,7 +161,9 @@ export default function CardTable({ cards }: Props) {
               <TableCell>{c.bank}</TableCell>
               <TableCell>{c.network}</TableCell>
               <TableCell>
-                {c.annualFee === null ? "—" : `¥${c.annualFee}`}
+                {c.annualFee === null
+                  ? "—"
+                  : `${currencySymbols[c.annualFee.currency] ?? c.annualFee.currency + " "}${c.annualFee.amount}`}
               </TableCell>
               <TableCell>
                 {c.cashbackRate === null ? "—" : `${c.cashbackRate}%`}
@@ -197,6 +198,12 @@ export default function CardTable({ cards }: Props) {
     </div>
   );
 }
+
+const currencySymbols: Record<string, string> = {
+  CNY: "¥",
+  HKD: "HK$",
+  USD: "$",
+};
 
 function unique(values: string[]): string[] {
   return Array.from(new Set(values)).sort();
