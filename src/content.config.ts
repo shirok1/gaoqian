@@ -17,9 +17,12 @@ export const collections = {
 
           // --- 信用卡 ---
           bank: z.string().optional(),
-          network: z.enum(["银联", "Visa", "Mastercard", "双标"]).optional(),
+          network: z
+            .enum(["银联", "Visa", "Mastercard", "双标", "美国运通", "JCB"])
+            .optional(),
           cardType: z.enum(["信用卡", "借记卡", "联名卡"]).optional(),
-          annualFee: z.number().optional(),
+          cardLevel: z.string().optional(),
+          annualFee: z.number().nullable().optional(),
           annualFeeWaiver: z.string().optional(),
           cashbackRate: z.number().nullable().optional(),
           pointsPerYuan: z.number().nullable().optional(),

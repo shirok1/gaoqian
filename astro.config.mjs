@@ -3,11 +3,16 @@
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import starlight from "@astrojs/starlight";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import starlightAutoSidebar from "starlight-auto-sidebar";
 
 // https://astro.build/config
 export default defineConfig({
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
   integrations: [
     starlight({
       title: "搞钱 Wiki",
@@ -17,6 +22,7 @@ export default defineConfig({
       locales: {
         root: { label: "简体中文", lang: "zh-CN" },
       },
+      customCss: ["./src/styles/global.css"],
       components: {
         MarkdownContent: "./src/components/overrides/MarkdownContent.astro",
       },

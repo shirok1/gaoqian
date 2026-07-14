@@ -1,0 +1,78 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is([data-theme="dark"] *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--__sl-font);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Alias shadcn's tokens to Starlight's own --sl-color-* palette (defined in
+ * @astrojs/starlight/style/props.css) instead of hardcoding oklch values.
+ * Starlight already flips --sl-color-* between its dark (default :root) and
+ * light ([data-theme='light']) values, so shadcn components pick up the
+ * site's actual theme automatically with no separate dark block needed here.
+ */
+:root {
+  --background: var(--sl-color-bg);
+  --foreground: var(--sl-color-text);
+  --card: var(--sl-color-bg-nav);
+  --card-foreground: var(--sl-color-text);
+  --popover: var(--sl-color-bg-nav);
+  --popover-foreground: var(--sl-color-text);
+  --primary: var(--sl-color-accent);
+  --primary-foreground: var(--sl-color-white);
+  --secondary: var(--sl-color-gray-6);
+  --secondary-foreground: var(--sl-color-text);
+  --muted: var(--sl-color-gray-6);
+  --muted-foreground: var(--sl-color-gray-3);
+  --accent: var(--sl-color-gray-6);
+  --accent-foreground: var(--sl-color-text);
+  --destructive: var(--sl-color-red);
+  --border: var(--sl-color-hairline);
+  --input: var(--sl-color-hairline-light);
+  --ring: var(--sl-color-accent);
+  --radius: 0.5rem;
+}
+
+/*
+ * Starlight owns body/html styling (fonts, background) site-wide via its own
+ * --sl-color-* system. Scope shadcn's reset to shadcn islands only, so it
+ * doesn't fight Starlight's styling on the rest of the docs site.
+ */
+@layer base {
+  .shadcn-scope * {
+    @apply border-border outline-ring/50;
+  }
+  .shadcn-scope {
+    @apply bg-background text-foreground font-sans;
+  }
+}

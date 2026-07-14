@@ -13,7 +13,7 @@ const cards: CardEntry[] = (await getCollection("docs"))
         bank: entry.data.bank ?? "",
         network: entry.data.network ?? "",
         cardType: entry.data.cardType ?? "",
-        annualFee: entry.data.annualFee ?? 0,
+        annualFee: entry.data.annualFee ?? null,
         annualFeeWaiver: entry.data.annualFeeWaiver ?? "",
         cashbackRate: entry.data.cashbackRate ?? null,
         pointsPerYuan: entry.data.pointsPerYuan ?? null,
@@ -31,6 +31,6 @@ const cards: CardEntry[] = (await getCollection("docs"))
         tableOfContents: false,
     }}
 >
-    <p>使用下方筛选器查找合适的信用卡。所有数据均为虚构示例，仅用于演示。</p>
+    <p>使用下方筛选器查找合适的信用卡。</p>
     <CardTable cards={cards} client:load />
 </StarlightPage>

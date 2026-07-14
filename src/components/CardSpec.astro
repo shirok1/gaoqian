@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { Badge } from '@astrojs/starlight/components';
 
 interface Props {
   entry: CollectionEntry<"docs">;
@@ -19,6 +20,7 @@ const rows: [string, string][] = [
   ["发卡行", d.bank ?? "—"],
   ["卡组织", d.network ?? "—"],
   ["卡片类型", d.cardType ?? "—"],
+  ["卡片等级", d.cardLevel ?? "—"],
   ["年费", yuan(d.annualFee)],
   ["免年费条件", d.annualFeeWaiver ?? "—"],
   ["返现比例", percent(d.cashbackRate)],
@@ -43,13 +45,9 @@ const rows: [string, string][] = [
   </table>
 
   {
-    d.perks.length > 0 && (
-      <ul class="chips">
-        {d.perks.map((perk) => (
-          <li class="chip">{perk}</li>
-        ))}
-      </ul>
-    )
+    d.perks.length > 0 && d.perks.map((perk) => (
+        <Badge text={perk} variant="note" />
+      ))
   }
 </div>
 
