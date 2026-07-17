@@ -1,0 +1,32 @@
+---
+title: 基金
+description: 使用基金简化投资操作。
+sidebar:
+  order: 3
+---
+import TVWidget from '@/components/tv/TVWidget.astro';
+import TVEmbed from '@/components/tv/TVEmbed.astro';
+
+<TVEmbed type="symbol-info" symbol="NYSE:ONON" colorTheme="dark" locale="zh_CN" isTransparent={false} width="500"/>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus eu orci ut tempor. Nam tempor malesuada enim, eget sollicitudin dui consectetur elementum. Quisque aliquam mauris eu ultrices semper. Curabitur consequat lorem ut elit laoreet, non condimentum diam tempor. Quisque id imperdiet lacus. Vestibulum eu urna vel nisl venenatis vehicula. Duis ullamcorper auctor lacus ac dignissim. Aenean vel magna urna. In varius erat tincidunt, mollis magna vel, tempor turpis. Suspendisse sapien tortor, imperdiet ac erat eget, fringilla sollicitudin sem. Donec vestibulum libero tellus, ac viverra ipsum convallis non. Mauris sed ornare felis.
+
+Fusce sagittis nisi nec nibh volutpat, eu blandit lacus tempor. Quisque congue ligula elit, eget placerat felis tincidunt quis. Phasellus et urna nec arcu consectetur rutrum quis eu nisl. Donec sit amet est egestas, tristique neque ultrices, sodales felis. Pellentesque ac volutpat arcu. Fusce eget sapien nec nibh venenatis pretium id at tortor. In vehicula lacus nibh. Nam congue, lorem non maximus pharetra, est ante pellentesque ex, at congue ex mi in sapien. Nulla mollis massa vitae ante consequat varius. Aenean non pretium augue, eu tempus tellus. Aliquam erat volutpat. Praesent tincidunt dolor venenatis, tempus justo ac, accumsan turpis.
+
+Praesent ac velit ac nunc pulvinar suscipit id vitae arcu. Nulla vulputate libero leo, non ultricies quam hendrerit non. Phasellus vitae lacinia ex, in condimentum odio. Nam euismod dui vitae malesuada elementum. Mauris sit amet fermentum nulla. Proin elementum non dui eu convallis. Praesent id lacinia felis. Vestibulum ut purus sapien. Pellentesque quis dui id urna tristique eleifend. Mauris sagittis velit tempus lorem semper, sed volutpat nisl laoreet. Donec vulputate, dolor eget euismod scelerisque, turpis tortor tempor purus, a feugiat libero sapien vel mauris. Quisque eu feugiat mi, vitae consectetur orci. Aenean in sapien finibus nibh elementum rhoncus. Pellentesque vitae metus rhoncus, molestie nibh quis, auctor enim. Maecenas eleifend, diam id sodales imperdiet, diam felis condimentum ex, sed pharetra velit nisl nec ante.
+
+Nullam elementum purus at sagittis interdum. Fusce luctus mattis volutpat. Proin commodo, dolor a consectetur imperdiet, justo leo convallis ligula, vel lobortis sapien augue non turpis. Curabitur dapibus sapien vitae ipsum ornare, blandit lobortis tortor imperdiet. Nunc accumsan porttitor feugiat. Aenean at massa libero. Suspendisse vitae aliquam arcu, eu tempus lorem. Aenean in massa in ex efficitur imperdiet eu a felis. Donec sit amet erat non massa bibendum pulvinar. In aliquet ultrices imperdiet. Etiam gravida consectetur dui, ut cursus arcu finibus ut.
+
+Mauris ligula dui, luctus id justo eu, luctus dignissim erat. In cursus magna ut sapien convallis, vel rhoncus urna vulputate. Aliquam iaculis quis lorem at posuere. Donec quis velit porta, blandit nisi ac, vestibulum augue. Nulla hendrerit urna in lobortis malesuada. Donec pretium quam quis massa faucibus blandit. Vestibulum porttitor aliquam quam non condimentum. Nullam id lobortis sapien. Sed tristique arcu vel nunc aliquam consequat. Phasellus lobortis justo eros, suscipit venenatis odio euismod ut. Nunc efficitur auctor mi quis scelerisque. Fusce vel sapien tellus. Nulla ac ipsum nisi. Nam semper a nibh sit amet congue. Proin maximus neque eu leo venenatis sagittis.
+
+<TVEmbed type="advanced-chart" symbol="NYSE:ONON" theme="dark" locale="zh_CN" height={500} style="height: 500px; width: 100%"/>
+
+<TVWidget type="mini-chart" symbol="NYSE:ONON" show-time-range time-frame="12M" transparent style="height: 250px" />
+
+<TVWidget type="ticker-tape" symbols="NASDAQ:AAPL,NYSE:DECK,NYSE:ONON" transparent style="height: 100px" />
+
+<TVWidget type="single-ticker" symbol="NYSE:ONON" transparent style="width: 300px; height: 100px" />
+
+<TVWidget type="tickers" symbols="NASDAQ:AAPL,NYSE:DECK,NYSE:ONON" transparent style="height: 100px" />
+
+<TVWidget type="company-profile" symbol="NYSE:ONON" transparent style="height: 300px" />

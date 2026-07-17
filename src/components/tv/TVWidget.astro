@@ -1,0 +1,34 @@
+---
+interface Props {
+  type: string;
+  [key: string]: any;
+}
+
+const { type, ...rest } = Astro.props;
+
+const Tag = `tv-${type}`
+---
+<Tag {...rest} data-tv-lazy>
+  <div class="tv-placeholder">Loading market data…</div>
+</Tag>
+
+<script>
+const observed = new WeakSet();
+const io = new IntersectionObserver((entries) => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    const tag = entry.target.tagName.toLowerCase();
+    import(/* @vite-ignore */ `https://widgets.tradingview-widget.com/w/zh_CN/${tag}.js`);
+    io.unobserve(entry.target);
+  }
+}, { rootMargin: '200px' });
+function scan() {
+  document.querySelectorAll('[data-tv-lazy]').forEach((el) => {
+    if (observed.has(el)) return;
+    observed.add(el);
+    io.observe(el);
+  });
+}
+scan();
+document.addEventListener('astro:page-load', scan);
+</script>

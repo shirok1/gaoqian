@@ -1,0 +1,14 @@
+---
+interface Props {
+  type: string;
+  [key: string]: any;
+}
+
+const { type, ...rest } = Astro.props;
+
+const src = `https://s3.tradingview.com/external-embedding/embed-widget-${type}.js`;
+---
+<div class="tradingview-widget-container" style="color-scheme: auto;">
+  <div class="tradingview-widget-container__widget"></div>
+  <script is:inline type="text/javascript" src={src} async set:html={JSON.stringify(rest)} />
+</div>
