@@ -1,4 +1,11 @@
 import { useMemo, useState } from "react";
+import {
+  type BrokerFee,
+  type BrokerStatus,
+  brokerStatusLabels,
+  formatBrokerFeeComponent,
+  formatBrokerFeeTitle,
+} from "../lib/broker-fees";
 
 // Plain-serializable shape: the .astro page maps collection entries to this
 // before passing them in, so the hydration payload stays lean.
@@ -7,15 +14,14 @@ export interface BrokerEntry {
   href: string;
   title: string;
   accountTypes: string[];
-  commissionRate: number;
-  minCommission: number;
-  platformFee: number | null;
+  fees: BrokerFee[];
   features: string[];
   appExperience: string;
   supportChannels: string[];
   minDeposit: number | null;
-  pensionSupported: boolean;
+  pensionSupported: boolean | null;
   targetGroup: string;
+  status: BrokerStatus | null;
 }
 
 interface Props {
@@ -52,7 +58,6 @@ export default function BrokerTable({ brokers }: Props) {
   const [appExperience, setAppExperience] = useState(ANY);
   const [targetGroup, setTargetGroup] = useState(ANY);
   const [feature, setFeature] = useState(ANY);
-  const [maxCommission, setMaxCommission] = useState("");
   const [pensionOnly, setPensionOnly] = useState(false);
 
   // Options derive from the data, so new content adds filter options for free.
@@ -68,8 +73,6 @@ export default function BrokerTable({ brokers }: Props) {
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    const commissionLimit = maxCommission === "" ? null : Number(maxCommission);
-
     return brokers.filter((b) => {
       if (q) {
         const haystack = [b.title, ...b.features].join(" ").toLowerCase();
@@ -77,17 +80,17 @@ export default function BrokerTable({ brokers }: Props) {
       }
       if (accountType !== ANY && !b.accountTypes.includes(accountType))
         return false;
+      if (
+        accountType !== ANY &&
+        b.fees.length > 0 &&
+        !b.fees.some((fee) => fee.market === accountType)
+      )
+        return false;
       if (appExperience !== ANY && b.appExperience !== appExperience)
         return false;
       if (targetGroup !== ANY && b.targetGroup !== targetGroup) return false;
       if (feature !== ANY && !b.features.includes(feature)) return false;
       if (pensionOnly && !b.pensionSupported) return false;
-      if (
-        commissionLimit !== null &&
-        !Number.isNaN(commissionLimit) &&
-        b.commissionRate > commissionLimit
-      )
-        return false;
       return true;
     });
   }, [
@@ -97,7 +100,6 @@ export default function BrokerTable({ brokers }: Props) {
     appExperience,
     targetGroup,
     feature,
-    maxCommission,
     pensionOnly,
   ]);
 
@@ -144,16 +146,6 @@ export default function BrokerTable({ brokers }: Props) {
           onChange={setFeature}
           options={options.features}
         />
-        <input
-          type="number"
-          min="0"
-          step="0.1"
-          value={maxCommission}
-          onChange={(e) => setMaxCommission(e.target.value)}
-          placeholder="最高佣金"
-          aria-label="最高佣金（万分之）"
-          style={{ ...controlStyle, width: "9rem" }}
-        />
         <label style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
           <input
             type="checkbox"
@@ -174,9 +166,7 @@ export default function BrokerTable({ brokers }: Props) {
             <tr>
               <th style={headStyle}>券商</th>
               <th style={headStyle}>可开账户</th>
-              <th style={headStyle}>佣金</th>
-              <th style={headStyle}>最低佣金</th>
-              <th style={headStyle}>平台费</th>
+              <th style={headStyle}>费用（按市场）</th>
               <th style={headStyle}>App</th>
               <th style={headStyle}>养老金</th>
               <th style={headStyle}>特色</th>
@@ -187,15 +177,50 @@ export default function BrokerTable({ brokers }: Props) {
               <tr key={b.id}>
                 <td style={cellStyle}>
                   <a href={b.href}>{b.title}</a>
+                  {b.status && (
+                    <span style={demoStyle}>
+                      {brokerStatusLabels[b.status]}
+                    </span>
+                  )}
                 </td>
                 <td style={cellStyle}>{b.accountTypes.join(" / ")}</td>
-                <td style={cellStyle}>万分之 {b.commissionRate}</td>
-                <td style={cellStyle}>¥{b.minCommission}</td>
                 <td style={cellStyle}>
-                  {b.platformFee === null ? "—" : `¥${b.platformFee}`}
+                  {b.fees.length === 0
+                    ? "未收录"
+                    : b.fees.map((fee, index) => (
+                        <div
+                          key={`${fee.market}-${fee.plan ?? index}`}
+                          style={
+                            index === 0 ? undefined : { marginTop: "0.5rem" }
+                          }
+                        >
+                          <strong>{formatBrokerFeeTitle(fee)}</strong>
+                          <br />
+                          佣金：{formatBrokerFeeComponent(fee.commission)}
+                          {fee.platformFee && (
+                            <>
+                              <br />
+                              平台费：
+                              {formatBrokerFeeComponent(fee.platformFee)}
+                            </>
+                          )}
+                          {fee.note && (
+                            <>
+                              <br />
+                              说明：{fee.note}
+                            </>
+                          )}
+                        </div>
+                      ))}
                 </td>
                 <td style={cellStyle}>{b.appExperience}</td>
-                <td style={cellStyle}>{b.pensionSupported ? "是" : "否"}</td>
+                <td style={cellStyle}>
+                  {b.pensionSupported === null
+                    ? "未收录"
+                    : b.pensionSupported
+                      ? "是"
+                      : "否"}
+                </td>
                 <td style={cellStyle}>
                   <div
                     style={{
@@ -216,7 +241,7 @@ export default function BrokerTable({ brokers }: Props) {
             {filtered.length === 0 && (
               <tr>
                 <td
-                  colSpan={8}
+                  colSpan={6}
                   style={{ ...cellStyle, color: "var(--sl-color-gray-2)" }}
                 >
                   没有符合条件的券商。
@@ -236,6 +261,11 @@ const chipStyle: React.CSSProperties = {
   padding: "0.1rem 0.6rem",
   fontSize: "var(--sl-text-xs)",
   whiteSpace: "nowrap",
+};
+
+const demoStyle: React.CSSProperties = {
+  ...chipStyle,
+  marginInlineStart: "0.4rem",
 };
 
 function unique(values: string[]): string[] {

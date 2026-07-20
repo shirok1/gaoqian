@@ -2,13 +2,20 @@
 import Default from "@astrojs/starlight/components/MarkdownContent.astro";
 import BrokerSpec from "../BrokerSpec.astro";
 import CardSpec from "../CardSpec.astro";
+import FinancialMeta from "../FinancialMeta.astro";
 
 const { entry } = Astro.locals.starlightRoute;
 const kind = entry.data.kind;
+const { verifiedAt, officialUrl, sources } = entry.data;
 ---
 
 <Default>
     {kind === "card" && <CardSpec entry={entry} />}
     {kind === "broker" && <BrokerSpec entry={entry} />}
+    <FinancialMeta
+        verifiedAt={verifiedAt}
+        officialUrl={officialUrl}
+        sources={sources}
+    />
     <slot />
 </Default>

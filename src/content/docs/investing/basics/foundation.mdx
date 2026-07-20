@@ -1,32 +1,96 @@
 ---
 title: 基金
-description: 使用基金简化投资操作。
+description: 基金是什么、主动与被动的区别、费率与定投的常识。
+verifiedAt: 2026-07-20
+officialUrl: https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/mutual-funds
+sources:
+  - title: SEC Investor.gov：共同基金
+    url: https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/mutual-funds
 sidebar:
   order: 3
 ---
 import TVWidget from '@/components/tv/TVWidget.astro';
 import TVEmbed from '@/components/tv/TVEmbed.astro';
 
-<TVEmbed type="symbol-info" symbol="NYSE:ONON" colorTheme="dark" locale="zh_CN" isTransparent={false} width="500"/>
+自己挑股票需要时间、知识和运气，三样凑齐的人不多。基金的意义就是把这件事外包出去：你出钱，别人（或者一套规则）替你买一篮子资产。这篇讲清楚基金的基本结构、主动和被动的区别、费率为什么比你想象的重要，以及场内场外和定投这几个绕不开的概念。
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer maximus eu orci ut tempor. Nam tempor malesuada enim, eget sollicitudin dui consectetur elementum. Quisque aliquam mauris eu ultrices semper. Curabitur consequat lorem ut elit laoreet, non condimentum diam tempor. Quisque id imperdiet lacus. Vestibulum eu urna vel nisl venenatis vehicula. Duis ullamcorper auctor lacus ac dignissim. Aenean vel magna urna. In varius erat tincidunt, mollis magna vel, tempor turpis. Suspendisse sapien tortor, imperdiet ac erat eget, fringilla sollicitudin sem. Donec vestibulum libero tellus, ac viverra ipsum convallis non. Mauris sed ornare felis.
+## 基金是什么
 
-Fusce sagittis nisi nec nibh volutpat, eu blandit lacus tempor. Quisque congue ligula elit, eget placerat felis tincidunt quis. Phasellus et urna nec arcu consectetur rutrum quis eu nisl. Donec sit amet est egestas, tristique neque ultrices, sodales felis. Pellentesque ac volutpat arcu. Fusce eget sapien nec nibh venenatis pretium id at tortor. In vehicula lacus nibh. Nam congue, lorem non maximus pharetra, est ante pellentesque ex, at congue ex mi in sapien. Nulla mollis massa vitae ante consequat varius. Aenean non pretium augue, eu tempus tellus. Aliquam erat volutpat. Praesent tincidunt dolor venenatis, tempus justo ac, accumsan turpis.
+基金的本质是**集合资金、代客投资**：一群人把钱交给基金公司，由基金经理按约定的策略去买股票、债券或其他资产，收益和风险由所有出资人按份额分摊。你买基金买到的是"份额"，份额的价格叫**净值**，随基金持有的资产涨跌每天变化。
 
-Praesent ac velit ac nunc pulvinar suscipit id vitae arcu. Nulla vulputate libero leo, non ultricies quam hendrerit non. Phasellus vitae lacinia ex, in condimentum odio. Nam euismod dui vitae malesuada elementum. Mauris sit amet fermentum nulla. Proin elementum non dui eu convallis. Praesent id lacinia felis. Vestibulum ut purus sapien. Pellentesque quis dui id urna tristique eleifend. Mauris sagittis velit tempus lorem semper, sed volutpat nisl laoreet. Donec vulputate, dolor eget euismod scelerisque, turpis tortor tempor purus, a feugiat libero sapien vel mauris. Quisque eu feugiat mi, vitae consectetur orci. Aenean in sapien finibus nibh elementum rhoncus. Pellentesque vitae metus rhoncus, molestie nibh quis, auctor enim. Maecenas eleifend, diam id sodales imperdiet, diam felis condimentum ex, sed pharetra velit nisl nec ante.
+对普通人来说，基金解决了三个问题：
 
-Nullam elementum purus at sagittis interdum. Fusce luctus mattis volutpat. Proin commodo, dolor a consectetur imperdiet, justo leo convallis ligula, vel lobortis sapien augue non turpis. Curabitur dapibus sapien vitae ipsum ornare, blandit lobortis tortor imperdiet. Nunc accumsan porttitor feugiat. Aenean at massa libero. Suspendisse vitae aliquam arcu, eu tempus lorem. Aenean in massa in ex efficitur imperdiet eu a felis. Donec sit amet erat non massa bibendum pulvinar. In aliquet ultrices imperdiet. Etiam gravida consectetur dui, ut cursus arcu finibus ut.
+- **分散。** 几百块钱就能间接持有几十上百只股票，单一公司暴雷对你的伤害被稀释。
+- **省事。** 选股、调仓这些活不用你干。
+- **门槛低。** 多数场外基金十元甚至一元起购，没有资金量要求。
 
-Mauris ligula dui, luctus id justo eu, luctus dignissim erat. In cursus magna ut sapien convallis, vel rhoncus urna vulputate. Aliquam iaculis quis lorem at posuere. Donec quis velit porta, blandit nisi ac, vestibulum augue. Nulla hendrerit urna in lobortis malesuada. Donec pretium quam quis massa faucibus blandit. Vestibulum porttitor aliquam quam non condimentum. Nullam id lobortis sapien. Sed tristique arcu vel nunc aliquam consequat. Phasellus lobortis justo eros, suscipit venenatis odio euismod ut. Nunc efficitur auctor mi quis scelerisque. Fusce vel sapien tellus. Nulla ac ipsum nisi. Nam semper a nibh sit amet congue. Proin maximus neque eu leo venenatis sagittis.
+但要记住一件事：基金分散的是**个股风险**，不是**市场风险**。市场整体下跌时，股票基金一样跌，只是通常不会像单只股票那样惨烈。基金不是保本产品，任何暗示"稳赚"的销售话术都可以直接拉黑。
 
-<TVEmbed type="advanced-chart" symbol="NYSE:ONON" theme="dark" locale="zh_CN" height={500} style="height: 500px; width: 100%"/>
+## 主动基金 vs 被动基金
 
-<TVWidget type="mini-chart" symbol="NYSE:ONON" show-time-range time-frame="12M" transparent style="height: 250px" />
+按"谁来做决策"，基金分成两大流派。
 
-<TVWidget type="ticker-tape" symbols="NASDAQ:AAPL,NYSE:DECK,NYSE:ONON" transparent style="height: 100px" />
+**主动基金**由基金经理主观选股、择时，目标是跑赢市场。听起来很美好，但有两个问题：一是长期持续跑赢市场的经理是极少数，而你几乎不可能提前识别出他们——过去的业绩对未来的预测力很弱；二是你为这份"可能的超额收益"付出的管理费是确定的，每年都要交，不管当年跑赢还是跑输。
 
-<TVWidget type="single-ticker" symbol="NYSE:ONON" transparent style="width: 300px; height: 100px" />
+**被动基金**（指数基金）不做主观判断，只机械复制一个指数的成分股——指数里有什么就买什么，按什么权重就配什么权重。它放弃了跑赢市场的野心，换来三样东西：**费率低、规则透明、不依赖任何人的水平**。你买沪深 300 指数基金，拿到的就是这 300 家公司的整体表现，不多不少。
 
-<TVWidget type="tickers" symbols="NASDAQ:AAPL,NYSE:DECK,NYSE:ONON" transparent style="height: 100px" />
+对没有精力研究的普通人，主流的理财共识是：**从宽基指数基金入门**。所谓宽基，就是覆盖面广、不押注单一行业的指数，比如沪深 300、中证 500，或者美股的标普 500。选它不是因为它收益最高，而是因为它把"选错人""选错行业"这两类最常见的错误直接排除掉了。
 
-<TVWidget type="company-profile" symbol="NYSE:ONON" transparent style="height: 300px" />
+## 费率：被低估的长期杀手
+
+买基金要付的钱主要有几类：**申购/认购费**（买入时一次性收）、**赎回费**（卖出时收，通常持有越久越低）、**管理费和托管费**（每年从净值里悄悄扣，你看不到扣款记录，但它每天都在发生）。主动股票基金的管理费加托管费通常在每年 1.5% 上下，而宽基指数基金普遍能低到 0.2% 甚至更低。
+
+"一年 1% 出头的差距"听起来无关痛痒，但复利会把它放大到惊人的程度。算一笔账：
+
+假设你一次性投入 10 万元，市场本身的年化回报是 7%，投资 30 年。
+
+- **不收费的理想情况：** 10 万 × 1.07³⁰ ≈ **76 万**。
+- **每年收 0.15% 的指数基金：** 实际年化 6.85%，30 年后约 **73 万**。
+- **每年收 1.5% 的主动基金：** 实际年化 5.5%，30 年后约 **50 万**。
+
+同样的市场回报，仅仅因为费率不同，30 年后的差距是 23 万——**费率吃掉了你最终财富的三成**。而且注意：这笔账还是在假设"主动基金和指数基金取得相同的市场回报"的前提下算的。主动基金要先每年稳定跑赢市场 1.3 个百分点，才只是和指数基金打平——长期做到这一点的产品是少数。
+
+:::tip
+费率是你在投资中极少数**事先确定、完全可控**的变量。收益是不确定的，费率是白纸黑字的。买入任何基金之前，先翻到它的费率页——这三十秒可能是整个投资流程里回报率最高的三十秒。
+:::
+
+## 场内 ETF vs 场外申赎
+
+同一个指数，通常有两条买入路径，区别在"交易发生在哪里"。
+
+**场外申赎**是传统方式：你在银行、基金公司官网或支付宝、天天基金这类代销平台下单，按**当天收盘后计算的净值**成交。特点是操作简单、支持自动定投、金额可以精确到元，但你下单时不知道确切的成交价格（未知价原则），资金到账和赎回通常有一到几个工作日的延迟。
+
+**场内 ETF**则像股票一样在交易所交易：你需要一个证券账户，在开盘时间按**实时价格**买卖，以"手"（通常 100 份）为单位。特点是价格实时可见、交易费用通常更低（免申购赎回费，只付券商佣金）、资金效率高，但需要自己开户、自己下单，且买卖价格可能偏离净值（溢价/折价）。
+
+以标普 500 为例——它是"宽基指数"这个概念最常被引用的样本，下图中的折线是它的长期走势；而追踪它的 ETF（比如美股市场的 SPY）价格走势与指数本身几乎重合——这正是被动基金"复制指数"的直观体现：
+
+<TVEmbed type="advanced-chart" symbol="AMEX:SPY" theme="dark" locale="zh_CN" height={500} compareSymbols={[{
+  "symbol": "SPREADEX:SPX",
+  "position": "SameScale"
+}]} style="height: 500px; width: 100%"/>
+
+怎么选？一个简单粗暴的划分：**图省事、想自动定投，用场外；在意成本、愿意开证券账户手动操作，用场内。** 两者买到的底层资产是一回事，别为这个选择纠结太久。
+
+## 定投：意义与局限
+
+定投就是**固定周期、固定金额、无脑买入**——比如每月发薪日后自动扣 1000 元买某只宽基指数基金。它被推荐给新手的频率极高，值得说清楚它到底解决什么、不解决什么。
+
+定投真正的意义有三个：
+
+- **强制储蓄。** 对多数人来说，定投最大的价值不是投资技巧，而是把"先花再存"改成"先存再花"。纪律本身就是收益的来源。
+- **摊平成本。** 固定金额买入意味着净值低时自动多买份额、净值高时自动少买，长期下来持仓成本趋于平均，避免把一大笔钱恰好砸在高点。
+- **对抗情绪。** 择时是普通人亏钱的头号原因——涨了追、跌了割。定投把决策交给日历，帮你戒掉手痒。
+
+但也要认清它的局限，别把定投当成魔法：
+
+- **定投不改变资产本身的风险。** 定投一个长期下跌的标的，只是亏得均匀一点。它平滑的是买入成本，不是收益。
+- **在单边上涨的市场里，定投跑不过一次性买入。** 摊平成本是双向的——低点多买的另一面是错过早期的低价。
+- **资金量大了之后，定投的平滑效果递减。** 当存量持仓远大于每月新增时，每期定投对整体成本的影响微乎其微，这时更该关心的是资产配置，而不是买入节奏。
+
+一句话：定投是给"有稳定现金流、没时间研究、管不住手"的人准备的纪律工具，它非常适合刚开始工作的你——但它保证的是行为不变形，不保证赚钱。
+
+## 收个尾
+
+把这篇压缩成三句话：**普通人投基金，从宽基指数基金开始；买之前先看费率，它是你唯一确定能控制的东西；用定投把动作固定下来，然后把注意力从盘面挪回工作和生活。** 投资里最值钱的品质不是聪明，是无聊。
+
+（以上为教育性通识内容，不构成任何投资建议；市场有风险，历史表现不代表未来收益。）

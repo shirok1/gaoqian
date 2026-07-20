@@ -1,13 +1,13 @@
 ---
 title: 搞钱 Wiki
-description: 信用卡与投资的中文资料库。
+description: 面向中国 Z 世代的个人财务中文资料库。
 template: splash
 hero:
-  tagline: Z 世代选卡与投资入门指南
+  tagline: 从工资单到投资，给中国 Z 世代的搞钱入门指南
   image:
     file: ../../assets/money_with_wings_color.svg
   actions:
-    - text: 从概览开始
+    - text: 从这里开始
       link: /getting-started/overview/
       icon: right-arrow
     - text: 信用卡目录
@@ -23,8 +23,7 @@ hero:
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
 :::caution[免责声明]
-本站内容仅供学习与参考，不构成任何投资建议或金融产品推荐。文中提及的银行、券商及产品均为虚构示例。
-请在做出任何财务决策前咨询持牌专业人士，并自行核实产品条款。
+本站内容仅供学习与参考，不构成投资、法律或税务建议，也不构成任何金融产品推荐。金融产品条款、监管政策与各地执行口径可能变化，请以官方最新信息为准。
 :::
 
 <CardGrid stagger>
@@ -35,12 +34,36 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
   </Card>
 
   <Card title="投资基础" icon="rocket">
-    开户之前需要想清楚的成本结构，以及波动与回撤的含义。
+    先处理负债与应急基金，再学习风险、资产配置、指数基金与定投。
 
     [投资入门 →](/investing/basics/intro/)
   </Card>
+
+  <Card title="工资、税与储蓄" icon="approve-check">
+    读懂总包、五险一金和个税，搭好银行账户与应急基金这层财务地基。
+
+    [看懂 Offer 总包 →](/salary/total-compensation/)
+  </Card>
+
+  <Card title="预算与现金流" icon="pencil">
+    从三个月收支快照开始，安排日常开销、应急金与中短期目标。
+
+    [建立第一份预算 →](/money-management/budget-and-cashflow/)
+  </Card>
+
+  <Card title="保险与债务" icon="warning">
+    先识别真正承受不起的风险，也给已有债务建立清晰的止损顺序。
+
+    [商业保险基础 →](/insurance/basics/) · [债务整理 →](/debt/repayment/)
+  </Card>
+
+  <Card title="住房与家庭" icon="seti:home">
+    比较租买的全部成本，并和伴侣建立透明、有边界的共同财务规则。
+
+    [租房还是买房 →](/housing/rent-vs-buy/) · [家庭共同财务 →](/family/shared-finances/)
+  </Card>
   
-  <Card title="信用卡目录" icon="approve-check">
+  <Card title="信用卡目录" icon="document">
     收录多家银行的信用卡，统一记录年费、返现、积分与权益。支持按卡组织、适合人群、申请难度与年费上限筛选。
 
     [浏览信用卡 →](/cards/db/)

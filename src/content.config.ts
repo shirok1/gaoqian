@@ -5,6 +5,92 @@ import { z } from "astro/zod";
 import { autoSidebarLoader } from "starlight-auto-sidebar/loader";
 import { autoSidebarSchema } from "starlight-auto-sidebar/schema";
 
+const currencySchema = z.enum(["CNY", "HKD", "USD"]);
+
+const moneySchema = z.object({
+  amount: z.number().nonnegative(),
+  currency: currencySchema,
+});
+
+const brokerFeeComponentSchema = z
+  .discriminatedUnion("unit", [
+    z.object({
+      unit: z.enum(["per_order", "per_share", "per_contract"]),
+      amount: z.number().nonnegative(),
+      currency: currencySchema,
+      minimum: moneySchema.optional(),
+      maximum: moneySchema.optional(),
+      note: z.string().optional(),
+    }),
+    z.object({
+      unit: z.literal("trade_value_percent"),
+      amount: z.number().nonnegative().max(100),
+      currency: z.never().optional(),
+      minimum: moneySchema.optional(),
+      maximum: moneySchema.optional(),
+      note: z.string().optional(),
+    }),
+    z.object({
+      unit: z.literal("trade_value_basis_points"),
+      amount: z.number().nonnegative().max(10_000),
+      currency: z.never().optional(),
+      minimum: moneySchema.optional(),
+      maximum: moneySchema.optional(),
+      note: z.string().optional(),
+    }),
+  ])
+  .superRefine((fee, context) => {
+    if (
+      "currency" in fee &&
+      fee.currency &&
+      fee.minimum?.currency !== undefined &&
+      fee.minimum.currency !== fee.currency
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["minimum", "currency"],
+        message: "最低费用币种必须与费用币种一致",
+      });
+    }
+    if (
+      "currency" in fee &&
+      fee.currency &&
+      fee.maximum?.currency !== undefined &&
+      fee.maximum.currency !== fee.currency
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["maximum", "currency"],
+        message: "最高费用币种必须与费用币种一致",
+      });
+    }
+    if (
+      fee.minimum &&
+      fee.maximum &&
+      fee.minimum.currency === fee.maximum.currency &&
+      fee.minimum.amount > fee.maximum.amount
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["maximum", "amount"],
+        message: "最高费用不能低于最低费用",
+      });
+    }
+  });
+
+const brokerFeeSchema = z.object({
+  market: z.enum(["A股", "港股", "美股", "基金", "债券"]),
+  plan: z.string().optional(),
+  commission: brokerFeeComponentSchema.optional(),
+  platformFee: brokerFeeComponentSchema.optional(),
+  note: z.string().optional(),
+});
+
+const sourceSchema = z.object({
+  title: z.string(),
+  url: z.url(),
+});
+
 export const collections = {
   docs: defineCollection({
     loader: docsLoader(),
@@ -14,6 +100,14 @@ export const collections = {
           // Discriminates entity detail pages from plain guide pages.
           // Guides leave this undefined and get no spec table.
           kind: z.enum(["card", "broker"]).optional(),
+
+          // --- 金融信息溯源 ---
+          verifiedAt: z.coerce.date().optional(),
+          officialUrl: z.url().optional(),
+          sources: sourceSchema.array().default([]),
+          status: z
+            .enum(["active", "restricted", "discontinued", "demo"])
+            .optional(),
 
           // --- 信用卡 ---
           bank: z.string().optional(),
@@ -42,9 +136,7 @@ export const collections = {
             .enum(["A股", "港股", "美股", "基金", "债券"])
             .array()
             .default([]),
-          commissionRate: z.number().optional(),
-          minCommission: z.number().optional(),
-          platformFee: z.number().nullable().optional(),
+          fees: brokerFeeSchema.array().default([]),
           features: z.string().array().default([]),
           appExperience: z.enum(["优", "良", "一般"]).optional(),
           supportChannels: z.string().array().default([]),

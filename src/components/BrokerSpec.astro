@@ -1,5 +1,11 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import {
+  type BrokerStatus,
+  brokerStatusLabels,
+  formatBrokerFeeComponent,
+  formatBrokerFeeTitle,
+} from "../lib/broker-fees";
 
 interface Props {
   entry: CollectionEntry<"docs">;
@@ -8,20 +14,29 @@ interface Props {
 const { entry } = Astro.props;
 const d = entry.data;
 
-const yuan = (n: number | null | undefined) =>
-  n === null || n === undefined ? "—" : `¥${n}`;
-// Commission is quoted in 万分之 N (basis points) by convention.
-const basisPoints = (n: number | null | undefined) =>
-  n === null || n === undefined ? "—" : `万分之 ${n}`;
+const feeRows = d.fees.flatMap((item) => {
+  const prefix = formatBrokerFeeTitle(item);
+  return [
+    [`${prefix}佣金`, formatBrokerFeeComponent(item.commission)],
+    ...(item.platformFee
+      ? [[`${prefix}平台费`, formatBrokerFeeComponent(item.platformFee)]]
+      : []),
+    ...(item.note ? [[`${prefix}说明`, item.note]] : []),
+  ] as [string, string][];
+});
 
 const rows: [string, string][] = [
   ["可开账户", d.accountTypes.length > 0 ? d.accountTypes.join(" / ") : "—"],
-  ["佣金费率", basisPoints(d.commissionRate)],
-  ["最低佣金", yuan(d.minCommission)],
-  ["平台费", yuan(d.platformFee)],
+  [
+    "当前状态",
+    d.status
+      ? brokerStatusLabels[d.status as BrokerStatus]
+      : "未收录",
+  ],
+  ...(feeRows.length > 0 ? feeRows : [["费用", "未收录"] as [string, string]]),
   ["App 体验", d.appExperience ?? "—"],
   ["客服渠道", d.supportChannels.length > 0 ? d.supportChannels.join(" / ") : "—"],
-  ["最低入金", yuan(d.minDeposit)],
+  ["最低入金", d.minDeposit === null || d.minDeposit === undefined ? "—" : `¥${d.minDeposit}`],
   ["支持养老金账户", d.pensionSupported === undefined ? "—" : d.pensionSupported ? "是" : "否"],
   ["适合人群", d.targetGroupBroker ?? "—"],
 ];

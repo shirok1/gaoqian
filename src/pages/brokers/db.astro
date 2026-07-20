@@ -13,15 +13,14 @@ const brokers: BrokerEntry[] = (await getCollection("docs"))
         href: `/${entry.id}/`,
         title: entry.data.title,
         accountTypes: entry.data.accountTypes,
-        commissionRate: entry.data.commissionRate ?? 0,
-        minCommission: entry.data.minCommission ?? 0,
-        platformFee: entry.data.platformFee ?? null,
+        fees: entry.data.fees,
         features: entry.data.features,
         appExperience: entry.data.appExperience ?? "",
         supportChannels: entry.data.supportChannels,
         minDeposit: entry.data.minDeposit ?? null,
-        pensionSupported: entry.data.pensionSupported ?? false,
+        pensionSupported: entry.data.pensionSupported ?? null,
         targetGroup: entry.data.targetGroupBroker ?? "",
+        status: entry.data.status ?? null,
     }))
     .sort((a, b) => a.title.localeCompare(b.title, "zh-CN"));
 ---
@@ -33,6 +32,6 @@ const brokers: BrokerEntry[] = (await getCollection("docs"))
         tableOfContents: false,
     }}
 >
-    <p>使用下方筛选器查找合适的券商。所有数据均为虚构示例，仅用于演示。</p>
+    <p>使用下方筛选器查找合适的券商。收费标准可能调整，请结合条目中的核对日期并以券商官网为准；标有“演示”的条目为虚构数据。</p>
     <BrokerTable brokers={brokers} client:load />
 </StarlightPage>

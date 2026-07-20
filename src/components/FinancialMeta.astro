@@ -1,0 +1,65 @@
+---
+import { Aside } from "@astrojs/starlight/components";
+
+type Source = {
+    title: string;
+    url: string;
+};
+
+type Props = {
+    verifiedAt?: string | Date;
+    officialUrl?: string;
+    sources?: Source[];
+};
+
+const { verifiedAt, officialUrl, sources = [] } = Astro.props;
+const hasMeta = Boolean(verifiedAt || officialUrl || sources.length);
+const listsOfficialUrl = sources.some((source) => source.url === officialUrl);
+const verifiedLabel = verifiedAt
+    ? new Intl.DateTimeFormat("zh-CN", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          timeZone: "UTC",
+      }).format(new Date(verifiedAt))
+    : undefined;
+const title = verifiedLabel ? `资料核对于 ${verifiedLabel}` : "资料核对";
+---
+
+{
+    hasMeta && (
+        <Aside type="note" title={title}>
+            {(officialUrl || sources.length > 0) && (
+              <ul class="m-0 list-disc space-y-1 ps-5">
+                  {officialUrl && !listsOfficialUrl && (
+                      <li>
+                          <a
+                              class="wrap-anywhere"
+                              href={officialUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                          >
+                              官方页面
+                          </a>
+                      </li>
+                  )}
+                  {sources.map((source) => (
+                      <li>
+                          <a
+                              class="wrap-anywhere"
+                              href={source.url}
+                              target="_blank"
+                              rel="noreferrer"
+                          >
+                              {source.title}
+                          </a>
+                      </li>
+                  ))}
+              </ul>
+            )}
+            <p class="mb-0 border-t border-(--sl-color-hairline-light) pt-3 text-sm text-(--sl-color-gray-3) wrap-anywhere">
+                金融产品、费率与政策可能随时调整，请在操作前以官方最新信息为准。
+            </p>
+        </Aside>
+    )
+}
